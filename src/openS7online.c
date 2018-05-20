@@ -1,8 +1,11 @@
 
+#include "config.h"
+
+#ifdef HAVE_S7ONLINE
+
 #include "openS7online.h"
 #include "log2.h"
-#ifdef BCCWIN
-#define WIN32_LEAN_AND_MEAN
+#ifdef OS_WINDOWS
 #include <windows.h>
 #include <stdio.h>
 #endif
@@ -16,14 +19,15 @@
        unless the user chooses the daveProtoS7online.
 */
 
-extern int daveDebug;
+typedef int (CALL_SPEC * _setHWnd) (int, HWND);
 
-typedef int (DECL2 * _setHWnd) (int, HWND);
-
-EXPORTSPEC HANDLE DECL2 openS7online(const char * accessPoint, HWND handle) {
+EXPORTSPEC HANDLE CALL_SPEC openS7online(const char * accessPoint, HWND handle) {
     HMODULE hmod;
     int h,en;
-	_setHWnd SetSinecHWnd; 
+	_setHWnd SetSinecHWnd;
+	int daveDebug;
+
+	daveDebug = daveGetDebug();
 
     hmod=LoadLibrary("S7onlinx.dll");
     if (daveDebug & daveDebugOpen)
@@ -61,10 +65,13 @@ EXPORTSPEC HANDLE DECL2 openS7online(const char * accessPoint, HWND handle) {
     return h;
 };
     
-EXPORTSPEC HANDLE DECL2 closeS7online(int h) {
-    SCP_close(h);
+EXPORTSPEC HANDLE CALL_SPEC closeS7online(int h) {
+    return SCP_close(h);
 }
 
+#endif // HAVE_S7ONLINE
 /*
     01/09/07  Used Axel Kinting's version.
+
+	2018-02-16	extern int daveDebug -> daveGetDebug()
 */

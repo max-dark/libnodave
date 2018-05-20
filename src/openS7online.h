@@ -25,22 +25,19 @@
 extern "C" {		// All here is C, *** NOT *** C++
 #endif
 
-#include "nodave.h"
+#include "config.h"
 
-#ifdef BCCWIN
-#define WIN32_LEAN_AND_MEAN
+#ifdef HAVE_S7ONLINE
+
+#include "nodave.h"
+//#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#define DECL2 __stdcall
 #define us unsigned short
-#ifdef DOEXPORT
-#define EXPORTSPEC __declspec (dllexport)
-#else
-#define EXPORTSPEC __declspec (dllimport)
-#endif
-//EXPORTSPEC HANDLE DECL2 openS7online(const char * accessPoint);
-EXPORTSPEC HANDLE DECL2 openS7online(const char * accessPoint, HWND handle);
-EXPORTSPEC HANDLE DECL2 closeS7online(int h);
-#endif
+
+//EXPORTSPEC HANDLE CALL_SPEC openS7online(const char * accessPoint);
+EXPORTSPEC HANDLE CALL_SPEC openS7online(const char * accessPoint, HWND handle);
+EXPORTSPEC HANDLE CALL_SPEC closeS7online(int h);
+#endif // 
 
 #ifdef __cplusplus
 }
@@ -50,4 +47,5 @@ EXPORTSPEC HANDLE DECL2 closeS7online(int h);
 
 /*
     01/09/07  Used Axel Kinting's version.
+	2018-02-16 + new define HAVE_S7ONLINE - more in config.h
 */

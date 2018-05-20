@@ -19,39 +19,25 @@
 */
 
 
-#ifndef opensocket__
-#define opensocket__
+#ifndef OPEN_SOCKET_H
+#define OPEN_SOCKET_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifdef BCCWIN
-#ifdef DOEXPORT
-#define EXPORTSPEC __declspec (dllexport)
-#else
-#define EXPORTSPEC __declspec (dllimport)
-#endif
-EXPORTSPEC HANDLE __stdcall openSocket(const int port, const char * peer);
+#include "config.h"
 
-EXPORTSPEC int __stdcall closeSocket(HANDLE h);
+EXPORTSPEC connection_t CALL_SPEC openSocket(const int port, const char * peer);
 
-#endif
-
-#ifdef LINUX
-#define EXPORTSPEC
-int openSocket(const int port, const char * peer);
-
-int closeSocket(int h);
-
-#endif
+EXPORTSPEC int CALL_SPEC closeSocket(connection_t h);
 
 #ifdef __cplusplus
  }
 #endif
 
 
-#endif //opensocket__
+#endif //OPEN_SOCKET_H
 
 
 /*
@@ -63,5 +49,5 @@ int closeSocket(int h);
 	      work with LINUX defines.
 Version 0.8.4.5    
     07/10/09  	Added closeSocket()
-	      
+	2018-02-14	API detection moved into config.h
 */

@@ -23,6 +23,8 @@
 #ifndef __openSocket
 #define __openSocket
 
+#include "config.h"
+
 #define ThisModule "openSocket: "
 
 #ifndef DONT_USE_GETHOSTBYNAME
